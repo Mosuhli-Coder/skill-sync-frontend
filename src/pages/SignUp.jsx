@@ -7,6 +7,8 @@ import {
   signUpFailure,
 } from "../redux/user/userSlice";
 
+const baseUrl = import.meta.env.VITE_SKILLSYNC_API_URL;
+
 export default function SignUp() {
   const [formData, setFormData] = useState({});
   const { loading, error } = useSelector((state) => state.user);
@@ -18,28 +20,28 @@ export default function SignUp() {
       ...formData,
       [e.target.id]: e.target.value,
     });
-    console.log(formData);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       dispatch(signUpStart());
-      // const res = await fetch("/api/auth/sign-in", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(formData),
-      // });
-      // const data = await res.json();
-      // if (data.success === false) {
-      //   dispatch(signUpFailure(data.message));
-      //   return;
-      // }
-      // dispatch(signUpSuccess(data));
-      navigate("/dashboard");
       console.log(formData);
+      const res = await fetch(`${baseUrl}/api/auth/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signUpFailure(data.message));
+        return;
+      }
+      dispatch(signUpSuccess(data));
+      navigate("/dashboard");
+      console.log(data);
     } catch (error) {
       dispatch(signUpFailure(error.message));
     }
@@ -69,7 +71,7 @@ export default function SignUp() {
             type="text"
             placeholder="Surname"
             className="w-full p-2 border border-gray-300 rounded"
-            id="surname"
+            id="lastName"
             onChange={handleChange}
             required
           />
@@ -102,7 +104,7 @@ export default function SignUp() {
             type="password"
             placeholder="password"
             className="w-full p-2 border border-gray-300 rounded"
-            id="confirmpassword"
+            id="confirmPassword"
             onChange={handleChange}
             required
           />

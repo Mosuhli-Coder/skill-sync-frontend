@@ -3,6 +3,8 @@ import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSli
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+const baseUrl = import.meta.env.VITE_SKILLSYNC_API_URL;
+
 export default function SignIn() {
   const [formData, setFormData] = useState({});
   const {loading, error} = useSelector((state) => state.user)
@@ -19,21 +21,21 @@ export default function SignIn() {
     e.preventDefault();
     try {
       dispatch(signInStart());
-      // const res = await fetch("/api/auth/sign-in", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(formData),
-      // });
-      // const data = await res.json();
-      // if (data.success === false) {
-      //   dispatch(signInFailure(data.message))
-      //   return;
-      // }
-      // dispatch(signInSuccess(data))
+      const res = await fetch(`${baseUrl}/api/auth/signin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signInFailure(data.message))
+        return;
+      }
+      dispatch(signInSuccess(data))
       navigate('/dashboard')
-      console.log(formData);
+      console.log(data);
     } catch (error) {
       dispatch(signInFailure(error.message))
     }
