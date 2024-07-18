@@ -60,6 +60,7 @@ export default function SignUp() {
             className="w-full p-2 border border-gray-300 rounded"
             id="firstName"
             onChange={handleChange}
+            required
           />
         </div>
         <div className="mb-4">
@@ -70,6 +71,7 @@ export default function SignUp() {
             className="w-full p-2 border border-gray-300 rounded"
             id="surname"
             onChange={handleChange}
+            required
           />
         </div>
         <div className="mb-4">
@@ -80,6 +82,7 @@ export default function SignUp() {
             className="w-full p-2 border border-gray-300 rounded"
             id="email"
             onChange={handleChange}
+            required
           />
         </div>
         <div className="mb-4">
@@ -90,6 +93,7 @@ export default function SignUp() {
             className="w-full p-2 border border-gray-300 rounded"
             id="password"
             onChange={handleChange}
+            required
           />
         </div>
         <div className="mb-4">
@@ -100,6 +104,7 @@ export default function SignUp() {
             className="w-full p-2 border border-gray-300 rounded"
             id="confirmpassword"
             onChange={handleChange}
+            required
           />
         </div>
         <button
