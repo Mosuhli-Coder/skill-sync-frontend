@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Header() {
@@ -21,7 +20,7 @@ export default function Header() {
               <a className="text-gray-800 mx-4">About</a>
             </Link>
             <Link to="/contact">
-              <a href="#contact" className="text-gray-800 mx-4">
+              <a className="text-gray-800 mx-4">
                 Contact
               </a>
             </Link>
