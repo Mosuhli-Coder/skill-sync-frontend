@@ -38,7 +38,7 @@ export default function SignUp() {
       //   return;
       // }
       // dispatch(signUpSuccess(data));
-      navigate("/");
+      navigate("/dashboard");
       console.log(formData);
     } catch (error) {
       dispatch(signUpFailure(error.message));

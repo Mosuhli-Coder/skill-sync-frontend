@@ -6,6 +6,8 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Header from "./components/Header";
 import Profile from "./pages/Profile";
+import Dashboard from "./pages/Dashboard";
+import Footer from "./components/Footer";
 
 export default function App() {
   return (
@@ -18,7 +20,9 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
