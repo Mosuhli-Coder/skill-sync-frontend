@@ -1,8 +1,32 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  signOutUserFailure,
+  signOutUserStart,
+  signOutUserSuccess,
+} from "../redux/user/userSlice";
+
+const baseUrl = import.meta.env.VITE_SKILLSYNC_API_URL;
 
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch(`${baseUrl}/api/auth/signout`);
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signOutUserFailure(data.message));
+        return;
+      }
+      dispatch(signOutUserSuccess(data));
+    } catch (error) {
+      console.log(error);
+      dispatch(signOutUserFailure(error.message));
+    }
+  };
 
   return (
     <header className="bg-white shadow">
@@ -14,31 +38,49 @@ export default function Header() {
               <span className="text-slate-700">Africa</span>
             </h1>
           </Link>
+
+          {currentUser ? (
+            <p className="text-2xl">
+              Welcome, {currentUser.firstName} {currentUser.lastName}
+            </p>
+          ) : (
+            ""
+          )}
           <nav>
-            <Link to="/">
+            {/* <Link to="/">
               <a className="text-gray-800 mx-4">Home</a>
+            </Link> */}
+            <Link to="/dashboard">
+              {currentUser ? (
+                <a className="text-gray-800 mx-4">Dashboad</a>
+              ) : (
+                <a className="text-gray-800 mx-4">Home</a>
+              )}
             </Link>
 
             <Link to="/about">
               <a className="text-gray-800 mx-4">About</a>
             </Link>
             <Link to="/contact">
-              <a className="text-gray-800 mx-4">
-                Contact
-              </a>
+              <a className="text-gray-800 mx-4">Contact</a>
             </Link>
           </nav>
           <div>
-          {currentUser ? (
+            {currentUser ? (
               <>
-              <p className="text-3xl font-bold">Welcome, {currentUser.lastName}</p>
                 <Link to="/profile">
-                  <button className="bg-gray-500 text-white px-4 py-2 rounded ml-2">
-                    Profile
-                  </button>
+                  {currentUser ? (
+                    <button className="bg-gray-500 text-white px-4 py-2 rounded ml-2">
+                      Profile
+                    </button>
+                  ) : (
+                    <button className="bg-gray-500 text-white px-4 py-2 rounded ml-2">
+                      Log In
+                    </button>
+                  )}
                 </Link>
                 <button
-                  // onClick={handleLogout}
+                  onClick={handleSignOut}
                   className="bg-red-500 text-white px-4 py-2 rounded ml-2"
                 >
                   Logout
