@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // const baseUrl = process.env.VITE_SKILLSYNC_API_URL;
-const baseUrl = "https://skill-sync-api-lnub.onrender.com";
+const baseUrl = "https://skill-sync-africa-api.vercel.app";
 
 // https://vitejs.dev/config/
 export default defineConfig({
