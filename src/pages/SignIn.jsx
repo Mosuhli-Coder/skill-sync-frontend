@@ -27,6 +27,7 @@ export default function SignIn() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        credentials: 'include', // Include credentials in the request
       });
       const data = await res.json();
       if (data.success === false) {
