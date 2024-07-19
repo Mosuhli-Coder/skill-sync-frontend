@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserData, fetchNotifications } from '../redux/actions';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserData, fetchNotifications } from "../redux/actions";
 
 export default function Dashboard() {
-    const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
-  const notifications = useSelector(state => state.notifications);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const notifications = useSelector((state) => state.notifications);
 
   useEffect(() => {
     dispatch(fetchUserData());
@@ -35,13 +35,6 @@ export default function Dashboard() {
       </aside>
 
       <main className="flex-1 p-6">
-        <header className="flex justify-between items-center pb-6">
-          <h1 className="text-3xl font-bold">Welcome, {user.name}</h1>
-          <button className="bg-red-500 text-white px-4 py-2 rounded">
-            Logout
-          </button>
-        </header>
-
         <section className="mb-6">
           <h2 className="text-2xl font-bold">Skill Matching</h2>
           <p className="mt-2">
