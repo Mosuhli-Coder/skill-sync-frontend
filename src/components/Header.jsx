@@ -5,11 +5,16 @@ import {
   signOutUserStart,
   signOutUserSuccess,
 } from "../redux/user/userSlice";
+import { useEffect, useRef, useState } from "react";
+import { FaBell } from "react-icons/fa";
+import { MdForwardToInbox } from "react-icons/md";
 
 const baseUrl = import.meta.env.VITE_SKILLSYNC_API_URL;
 
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const settingsRef = useRef(null);
   const dispatch = useDispatch();
 
   const handleSignOut = async () => {
@@ -28,79 +33,107 @@ export default function Header() {
     }
   };
 
+  const toggleSettings = () => {
+    setSettingsOpen(!settingsOpen);
+  };
+  const handleClickOutside = (event) => {
+    if (settingsRef.current && !settingsRef.current.contains(event.target)) {
+      setSettingsOpen(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <header className="bg-white shadow">
+    <header className="bg-white shadow elative z-10">
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <Link to="/">
+          <Link to={currentUser ? "/dashboard" : "/"}>
             <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
               <span className="text-slate-500">SkillSync</span>
-              <span className="text-slate-700">Africa</span>
+              {currentUser && <span className="text-slate-700">Africa</span>}
             </h1>
           </Link>
 
-          {currentUser ? (
+          {currentUser && (
             <p className="text-2xl">
               Welcome, {currentUser.firstName} {currentUser.lastName}
             </p>
-          ) : (
-            ""
           )}
-          <nav>
-            {/* <Link to="/">
-              <a className="text-gray-800 mx-4">Home</a>
-            </Link> */}
-            <Link to="/dashboard">
-              {currentUser ? (
-                <a className="text-gray-800 mx-4">Dashboad</a>
-              ) : (
-                <a className="text-gray-800 mx-4">Home</a>
-              )}
+
+          <nav className="flex items-center">
+            <Link to={currentUser ? "/dashboard" : "/"}>
+              <span className="text-gray-800 mx-4">
+                {currentUser ? "Dashboard" : "Home"}
+              </span>
             </Link>
 
             <Link to="/about">
-              <a className="text-gray-800 mx-4">About</a>
+              <span className="text-gray-800 mx-4">About</span>
             </Link>
             <Link to="/contact">
-              <a className="text-gray-800 mx-4">Contact</a>
+              <span className="text-gray-800 mx-4">Contact</span>
             </Link>
-          </nav>
-          <div>
-            {currentUser ? (
-              <>
-                <Link to="/profile">
-                  {currentUser ? (
-                    <button className="bg-gray-500 text-white px-4 py-2 rounded ml-2">
+
+            {currentUser && (
+              <div className="relative flex items-center" ref={settingsRef}>
+                <FaBell className="text-gray-800 mx-4 cursor-pointer" />
+                <MdForwardToInbox className="text-gray-800 mx-4 cursor-pointer" />
+                <img
+                  className="rounded-full h-7 w-7 object-cover cursor-pointer"
+                  src={currentUser.avatar}
+                  alt="profile"
+                  onClick={toggleSettings}
+                />
+
+                {settingsOpen && (
+                  <div
+                    className="
+                  absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg z-50
+                  "
+                  >
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                    >
                       Profile
+                    </Link>
+                    <Link
+                      to="/settings"
+                      className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                    >
+                      Settings
+                    </Link>
+                    <button
+                      onClick={handleSignOut}
+                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
+                    >
+                      Logout
                     </button>
-                  ) : (
-                    <button className="bg-gray-500 text-white px-4 py-2 rounded ml-2">
-                      Log In
-                    </button>
-                  )}
-                </Link>
-                <button
-                  onClick={handleSignOut}
-                  className="bg-red-500 text-white px-4 py-2 rounded ml-2"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link to="/sign-up">
-                  <button className="bg-blue-500 text-white px-4 py-2 rounded">
-                    Sign Up
-                  </button>
-                </Link>
-                <Link to="/sign-in">
-                  <button className="bg-gray-500 text-white px-4 py-2 rounded ml-2">
-                    Log In
-                  </button>
-                </Link>
-              </>
+                  </div>
+                )}
+              </div>
             )}
-          </div>
+          </nav>
+
+          {!currentUser && (
+            <div>
+              <Link to="/sign-up">
+                <button className="bg-blue-500 text-white px-4 py-2 rounded">
+                  Sign Up
+                </button>
+              </Link>
+              <Link to="/sign-in">
+                <button className="bg-gray-500 text-white px-4 py-2 rounded ml-2">
+                  Log In
+                </button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>
