@@ -43,7 +43,7 @@ export default function Home() {
               </div>
               <div className="md:w-1/2 lg:w-1/3 mt-8 md:mt-0">
                 <img
-                  src="/public/Collabrative.png"
+                  src="/Collabrative.png"
                   alt="Hero Image"
                   className="rounded-lg shadow-lg"
                 />
