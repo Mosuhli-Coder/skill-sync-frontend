@@ -43,7 +43,7 @@ export default function Home() {
               </div>
               <div className="md:w-1/2 lg:w-1/3 mt-8 md:mt-0">
                 <img
-                  src="src/assets/Collabrative.png"
+                  src="/public/Collabrative.png"
                   alt="Hero Image"
                   className="rounded-lg shadow-lg"
                 />
@@ -202,7 +202,7 @@ export default function Home() {
               </h2>
               <h1 className="lg:text-7xl text-4xl md:text-5xl font-bold tracking-tight text-gray-900 text-center">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-800 to-gray-900">
-                Join our community now
+                  Join our community now
                 </span>
               </h1>
               <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
@@ -239,7 +239,6 @@ export default function Home() {
                   className="text-md relative inline-flex items-center gap-x-2 rounded-lg bg-teal-600 px-6 py-4 font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
                 >
                   Join SkillSync Today - It's Free!
-                  
                 </button>
               </div>
             </div>
