@@ -159,11 +159,6 @@ export default function Header() {
                 <span className="text-slate-700">Africa</span>
               </h1>
             </Link>
-            {currentUser && (
-              <p className="text-2xl">
-                Welcome, {currentUser.firstName} {currentUser.lastName}
-              </p>
-            )}
           </div>
           <button
             id="menu-toggle"

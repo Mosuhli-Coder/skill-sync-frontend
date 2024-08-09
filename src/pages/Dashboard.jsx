@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { FaSearch } from "react-icons/fa";
 import MatchedUserDetailModal from "../components/MatchedUserDetailModal";
 import SendRequestModal from "../components/SendRequestModal";
 import Sidebar from "../components/Sidebar";
+import DashboardWelcomeSection from "../components/DashboardWelcomeSection";
 
 const baseUrl = import.meta.env.VITE_SKILLSYNC_API_URL;
 
@@ -98,13 +100,30 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex">
-      <Sidebar/>
+      <Sidebar />
       <main className="flex-1 p-6">
+        <DashboardWelcomeSection />
+
         <section className="mb-6">
           <h2 className="text-2xl font-bold">Skill Matching</h2>
           <p className="mt-2">
             Suggestions for learning and teaching based on your profile
           </p>
+          <div className="flex justify-center items-center">
+            <form onChange={""} className="max-w-[480px] w-full px-4">
+              <div className="relative">
+                <input
+                  type="text"
+                  name="q"
+                  className="w-full border h-12 shadow p-4 rounded-full dark:text-gray-800 dark:border-gray-700 dark:bg-gray-200"
+                  placeholder="search"
+                ></input>
+                <button type="submit">
+                  <FaSearch className="text-teal-400 h-5 w-5 absolute top-3.5 right-3 fill-current dark:text-teal-300" />
+                </button>
+              </div>
+            </form>
+          </div>
           <div className="mt-4 overflow-x-auto flex space-x-4">
             {matches.map((match) => (
               <div
