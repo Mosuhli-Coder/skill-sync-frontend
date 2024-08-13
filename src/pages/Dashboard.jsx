@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { FaSearch } from "react-icons/fa";
 import MatchedUserDetailModal from "../components/MatchedUserDetailModal";
 import SendRequestModal from "../components/SendRequestModal";
 import Sidebar from "../components/Sidebar";
+import DashboardWelcomeSection from "../components/DashboardWelcomeSection";
 
 const baseUrl = import.meta.env.VITE_SKILLSYNC_API_URL;
 
@@ -98,22 +100,39 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex">
-      <Sidebar/>
+      <Sidebar />
       <main className="flex-1 p-6">
+        <DashboardWelcomeSection />
+
         <section className="mb-6">
           <h2 className="text-2xl font-bold">Skill Matching</h2>
           <p className="mt-2">
             Suggestions for learning and teaching based on your profile
           </p>
+          <div className="flex justify-center items-center">
+            <form onChange={""} className="max-w-[480px] w-full px-4">
+              <div className="relative">
+                <input
+                  type="text"
+                  name="q"
+                  className="w-full border h-12 shadow p-4 rounded-full dark:text-gray-800 dark:border-gray-700 dark:bg-gray-200"
+                  placeholder="search"
+                ></input>
+                <button type="submit">
+                  <FaSearch className="text-teal-400 h-5 w-5 absolute top-3.5 right-3 fill-current dark:text-teal-300" />
+                </button>
+              </div>
+            </form>
+          </div>
           <div className="mt-4 overflow-x-auto flex space-x-4">
             {matches.map((match) => (
               <div
-                key={match.user._id}
+                key={match.userRef._id}
                 className="flex-shrink-0 w-40 p-4 border rounded-lg cursor-pointer bg-white shadow-md hover:shadow-lg transition-shadow"
                 onClick={() =>
-                  handleUserClick(match.user, [
-                    ...match.matchedTeachSkills,
-                    ...match.matchedLearnSkills,
+                  handleUserClick(match.userRef, [
+                    ...match.skillsToTeach,
+                    ...match.skillsToLearn,
                   ])
                 }
               >
@@ -121,18 +140,18 @@ export default function Dashboard() {
                   <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-300 mb-2">
                     <img
                       src={
-                        match.user.avatar || "/path/to/default/profile-pic.png"
+                        match.userRef.avatar || "/path/to/default/profile-pic.png"
                       }
-                      alt={`${match.user.firstName}'s profile`}
+                      alt={`${match.userRef.firstName}'s profile`}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      openDetailModal(match.user, [
-                        ...match.matchedTeachSkills,
-                        ...match.matchedLearnSkills,
+                      openDetailModal(match.userRef, [
+                        ...match.skillsToTeach,
+                        ...match.skillsToLearn,
                       ]);
                     }}
                     className="mt-2 text-blue-500 cursor-pointer"
@@ -140,11 +159,11 @@ export default function Dashboard() {
                     View Profile
                   </div>
                   <h6 className="text-lg font-semibold">
-                    {match.user.lastName}
+                    {match.userRef.lastName}
                   </h6>
                   <h4 className="mt-2 font-medium">Skills:</h4>
                   <ul className="list-disc list-inside text-sm">
-                    {[...match.matchedTeachSkills, ...match.matchedLearnSkills]
+                    {[...match.skillsToTeach, ...match.skillsToLearn]
                       .slice(0, 3)
                       .map((skill) => (
                         <li key={skill._id} className="mt-1">
@@ -155,9 +174,9 @@ export default function Dashboard() {
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      openRequestModal(match.user, [
-                        ...match.matchedTeachSkills,
-                        ...match.matchedLearnSkills,
+                      openRequestModal(match.userRef, [
+                        ...match.skillsToTeach,
+                        ...match.skillsToLearn,
                       ]);
                     }}
                     className="mt-2 text-blue-500 cursor-pointer"
