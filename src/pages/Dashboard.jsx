@@ -127,12 +127,12 @@ export default function Dashboard() {
           <div className="mt-4 overflow-x-auto flex space-x-4">
             {matches.map((match) => (
               <div
-                key={match.user._id}
+                key={match.userRef._id}
                 className="flex-shrink-0 w-40 p-4 border rounded-lg cursor-pointer bg-white shadow-md hover:shadow-lg transition-shadow"
                 onClick={() =>
-                  handleUserClick(match.user, [
-                    ...match.matchedTeachSkills,
-                    ...match.matchedLearnSkills,
+                  handleUserClick(match.userRef, [
+                    ...match.skillsToTeach,
+                    ...match.skillsToLearn,
                   ])
                 }
               >
@@ -140,18 +140,18 @@ export default function Dashboard() {
                   <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-300 mb-2">
                     <img
                       src={
-                        match.user.avatar || "/path/to/default/profile-pic.png"
+                        match.userRef.avatar || "/path/to/default/profile-pic.png"
                       }
-                      alt={`${match.user.firstName}'s profile`}
+                      alt={`${match.userRef.firstName}'s profile`}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      openDetailModal(match.user, [
-                        ...match.matchedTeachSkills,
-                        ...match.matchedLearnSkills,
+                      openDetailModal(match.userRef, [
+                        ...match.skillsToTeach,
+                        ...match.skillsToLearn,
                       ]);
                     }}
                     className="mt-2 text-blue-500 cursor-pointer"
@@ -159,11 +159,11 @@ export default function Dashboard() {
                     View Profile
                   </div>
                   <h6 className="text-lg font-semibold">
-                    {match.user.lastName}
+                    {match.userRef.lastName}
                   </h6>
                   <h4 className="mt-2 font-medium">Skills:</h4>
                   <ul className="list-disc list-inside text-sm">
-                    {[...match.matchedTeachSkills, ...match.matchedLearnSkills]
+                    {[...match.skillsToTeach, ...match.skillsToLearn]
                       .slice(0, 3)
                       .map((skill) => (
                         <li key={skill._id} className="mt-1">
@@ -174,9 +174,9 @@ export default function Dashboard() {
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      openRequestModal(match.user, [
-                        ...match.matchedTeachSkills,
-                        ...match.matchedLearnSkills,
+                      openRequestModal(match.userRef, [
+                        ...match.skillsToTeach,
+                        ...match.skillsToLearn,
                       ]);
                     }}
                     className="mt-2 text-blue-500 cursor-pointer"

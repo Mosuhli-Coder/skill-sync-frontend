@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
+import SkillManagement from "./components/SkillManagement";
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/skill-management" element={<SkillManagement />} />
         </Route>
       </Routes>
       <Footer />
